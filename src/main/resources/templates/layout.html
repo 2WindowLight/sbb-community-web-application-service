@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewpoint" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" type="text/css" th:href="@{/bootstrap.min.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/style.css}">
+    <title>Title</title>
+    <!-- simpleMDE CSS 추가-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
+
+</head>
+<body>
+
+<nav th:replace="~{navbar :: navbarFragment}"></nav>
+<!-- 기본 템플릿 안에 삽입될 내용 Start -->
+<th:block layout:fragment="content"></th:block>
+
+<script th:src="@{/bootstrap.min.js}"></script>
+
+<!--simpleMDE JS 추가-->
+<script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
+<!-- simpleMDE 초기화-->
+<th:block layout:fragment="script"></th:block>
+<!-- 자바스크립트 End -->
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+        var editorIds = ['markdownEditorQuestion', 'markdownEditorAnswer', 'markdownEditorAnswerEnabled'];
+        editorIds.forEach(function(editorId){
+            var textareaElement = document.getElementById(editorId);
+            if(textareaElement){
+                new SimpleMDE({ element: textareaElement });
+            }
+        });
+    });
+</script>
+
+
+</body>
+</html>
