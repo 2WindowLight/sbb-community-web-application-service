@@ -1,9 +1,12 @@
 package com.mysite.sbb.user;
 
+import com.mysite.sbb.answer.Answer;
 import com.mysite.sbb.answer.AnswerService;
 import com.mysite.sbb.comment.CommentService;
+import com.mysite.sbb.question.Question;
 import com.mysite.sbb.question.QuestionService;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.security.Principal;
 
@@ -75,8 +79,10 @@ public class UserController {
 	}
 	@PreAuthorize("isAuthenticated()")
 	@GetMapping("/profile")
-	public String profile(Model model, Principal principal) {
+	public String profile(UserUpdateForm userUpdateForm, Model model, Principal principal) {
 		String username = principal.getName();
+
+		model.addAttribute("userUpdateForm", userUpdateForm);
 		model.addAttribute("username", username);
 		model.addAttribute("questionList",
 				questionService.getCurrentListByUser(username, 5));
@@ -86,5 +92,6 @@ public class UserController {
 				commentService.getCurrentListByUser(username, 5));
 		return "profile";
 	}
+
 
 }

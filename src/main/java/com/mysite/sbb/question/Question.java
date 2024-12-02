@@ -48,7 +48,7 @@ public class Question {
     @Column(nullable = false, columnDefinition = "int default 0")
     private int viewCount; // 조회수
 
-    @Column(name = "is_popular", nullable = false)
+    @Column(nullable = false, columnDefinition = "boolean default false")
     private boolean isPopular = false;
 
     public boolean isPopular() {

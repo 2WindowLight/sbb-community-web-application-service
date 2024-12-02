@@ -18,4 +18,8 @@ public class SiteUser {
     private String password;
     @Column(unique = true) // unique 유일한 값을 사용
     private String email;
+
+    private String provider;
+
+    private Long socialId;
 }

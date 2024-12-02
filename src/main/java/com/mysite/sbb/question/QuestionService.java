@@ -138,4 +138,8 @@ public class QuestionService {
         }
     }
 
+    public List<Question> getRecentQuestions(int limit) {
+        return this.questionRepository.findAll(PageRequest.of(0, limit, Sort.by(Sort.Direction.DESC, "createDate"))).getContent();
+    }
+
 }

@@ -71,5 +71,10 @@ public class AnswerService {
         Pageable pageable = PageRequest.of(0, num);
         return answerRepository.findCurrentAnswer(username, pageable);
     }
+    public List<Answer> getRecentAnswers(int limit) {
+        return this.answerRepository.findAll(PageRequest.of(0, limit, Sort.by(Sort.Direction.DESC, "createDate"))).getContent();
+    }
+
+
 
 }

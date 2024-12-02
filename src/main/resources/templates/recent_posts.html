@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Recent Posts</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<h1>최근 질문글 & 답변</h1>
+<section>
+  <h2>최근 질문글</h2>
+  <ul>
+    <th:block th:each="question : ${questions}">
+      <li>
+        <a th:href="@{'/question/detail/' + ${question.id}}">
+          <span th:text="${question.subject}"></span>
+        </a>
+        <span> | 게시된 날짜: <span th:text="${#temporals.format(question.createDate, 'yyyy-MM-dd HH:mm')}"></span></span>
+      </li>
+    </th:block>
+  </ul>
+</section>
+<section>
+  <h2>최근 답변</h2>
+  <ul>
+    <th:block th:each="answer : ${answers}">
+      <li>
+        <a th:href="@{'/question/detail/' + ${answer.question.id} + '#answer_' + ${answer.id}}">
+          <span th:text="${answer.content}"></span>
+        </a>
+        <span> | 게시된 날짜: <span th:text="${#temporals.format(answer.createDate, 'yyyy-MM-dd HH:mm')}"></span></span>
+      </li>
+    </th:block>
+  </ul>
+</section>
+</body>
+</html>
+
+
+
+

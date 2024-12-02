@@ -1,5 +1,8 @@
 package com.mysite.sbb;
 
+import com.mysite.sbb.oauth2.KakaoOAuth2UserService;
+import com.mysite.sbb.oauth2.KakaoLogoutSuccessHandler;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -11,12 +14,20 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.header.writers.frameoptions.XFrameOptionsHeaderWriter;
+import org.springframework.security.web.header.writers.frameoptions.XFrameOptionsHeaderWriter.XFrameOptionsMode;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
+
+@RequiredArgsConstructor
 @Configuration
+
+
 @EnableWebSecurity
 @EnableMethodSecurity(prePostEnabled = true)
 public class SecurityConfig {
+
+	private final KakaoOAuth2UserService kakaoOAuth2UserService;
+	private final KakaoLogoutSuccessHandler kakaoLogoutSuccessHandler;
 	@Bean
 	SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		http.authorizeHttpRequests((authorizeHttpRequests) -> authorizeHttpRequests
@@ -29,8 +40,21 @@ public class SecurityConfig {
 				.headers((headers) -> headers.addHeaderWriter(
 						new XFrameOptionsHeaderWriter(XFrameOptionsHeaderWriter.XFrameOptionsMode.SAMEORIGIN)))
 				.formLogin((formLogin) -> formLogin.loginPage("/user/login").defaultSuccessUrl("/"))
-				.logout((logout) -> logout.logoutRequestMatcher(new AntPathRequestMatcher("/user/logout"))
-						.logoutSuccessUrl("/").invalidateHttpSession(true));
+				.oauth2Login((oauth2Login) -> oauth2Login
+						.loginPage("/user/login")
+						.defaultSuccessUrl("/")
+						.userInfoEndpoint(userInfo -> userInfo
+								.userService(kakaoOAuth2UserService)
+						)
+				)
+				.logout((logout) -> logout
+						.logoutRequestMatcher(new AntPathRequestMatcher("/user/logout"))
+						.logoutSuccessHandler(kakaoLogoutSuccessHandler)
+				.logoutSuccessUrl("/")
+				.invalidateHttpSession(true)
+				.clearAuthentication(true)
+				.deleteCookies("JSESSIONID"));
+
 		return http.build();
 	}
 
