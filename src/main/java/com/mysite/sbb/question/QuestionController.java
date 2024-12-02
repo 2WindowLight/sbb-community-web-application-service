@@ -64,7 +64,7 @@ public class QuestionController {
         Question question = this.questionService.getQuestion(id);
         Page<Answer> answerPaging = this.answerService.getList(question, answerPage);
         List<Comment> commentList = this.commentService.getCommentList(question);
-        /*questionService.incrementViewCount(id); */// 조회수 증가
+        /*questionService.incrementViewCount(id); */// 조회수 증가 제거
 
         // AnswerForm과 CommentForm 추가
         model.addAttribute("question", question);
