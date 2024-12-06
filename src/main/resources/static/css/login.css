@@ -1,0 +1,92 @@
+.login-container {
+    max-width: 400px;
+    margin: 0 auto;
+    text-align: center;
+    padding: 20px;
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.login-header h2 {
+    font-size: 24px;
+    color: #2db400;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+.login-form .form-group {
+    margin-bottom: 15px;
+    text-align: left;
+}
+
+.login-form .form-group label {
+    display: block;
+    font-size: 14px;
+    margin-bottom: 5px;
+    color: #333333;
+}
+
+.login-form .form-control {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.login-form .options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    font-size: 12px;
+    color: #666666;
+}
+
+.login-form .options label {
+    display: flex;
+    align-items: center;
+}
+
+.login-form .ip-security {
+    color: #888888;
+    text-decoration: none;
+}
+
+.login-form .ip-security span {
+    color: #2db400;
+    font-weight: bold;
+}
+
+.login-button {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #ffffff;
+    background-color: #2db400;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.login-button:hover {
+    background-color: #28a000;
+}
+
+.login-footer {
+    margin-top: 15px;
+    font-size: 12px;
+    color: #666666;
+}
+
+.login-footer a {
+    color: #2db400;
+    text-decoration: none;
+}
+
+.login-footer a:hover {
+    text-decoration: underline;
+}

@@ -15,10 +15,15 @@ import java.util.List;
 @Service
 public class CommentService {
     private final CommentRepository commentRepository;
-    public Comment create(String content, Question question, Answer answer, SiteUser siteUser) { Comment comment = new Comment();
+    public Comment create(String content, Question question, Answer answer, SiteUser siteUser) {
+        Comment comment = new Comment();
         comment.setContent(content);
         comment.setQuestion(question);
-        comment.setAnswer(answer); comment.setAuthor(siteUser); comment.setCreateDate(LocalDateTime.now()); this.commentRepository.save(comment); return comment;
+        comment.setAnswer(answer);
+        comment.setAuthor(siteUser);
+        comment.setCreateDate(LocalDateTime.now());
+        this.commentRepository.save(comment);
+        return comment;
 
     }
     public List<Comment> getCommentList(Question question) {

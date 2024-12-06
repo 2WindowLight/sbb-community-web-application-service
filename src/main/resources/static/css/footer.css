@@ -1,0 +1,21 @@
+/* HTML과 BODY를 전체 높이로 설정 */
+html, body {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+/* 메인 콘텐츠를 확장 가능한 영역으로 설정 */
+.container {
+    flex: 1; /* 컨텐츠가 푸터 위에 자리잡게 확장 */
+}
+
+/* 푸터를 항상 페이지 하단에 고정 */
+footer {
+    background-color: #343a40; /* 푸터 배경 색상 */
+    color: white; /* 텍스트 색상 */
+    text-align: center;
+    padding: 20px 0;
+    margin-top: auto; /* 푸터가 항상 페이지 하단에 위치 */
+}

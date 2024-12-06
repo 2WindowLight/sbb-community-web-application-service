@@ -2,39 +2,67 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewpoint" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" type="text/css" th:href="@{/bootstrap.min.css}">
-    <link rel="stylesheet" type="text/css" th:href="@{/style.css}">
-    <title>Title</title>
-    <!-- simpleMDE CSS 추가-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link rel="stylesheet" th:href="@{/css/footer.css}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
-
+    <title>게시판</title>
 </head>
 <body>
+<!-- 네비게이션 바 -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+        <a class="navbar-brand" href="/">SBB</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item"><a class="nav-link" th:href="@{/user/login}">로그인</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/user/signup}">회원가입</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/user/profile}">내 정보</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
 
-<nav th:replace="~{navbar :: navbarFragment}"></nav>
-<!-- 기본 템플릿 안에 삽입될 내용 Start -->
+<!-- 메인 콘텐츠 -->
 <th:block layout:fragment="content"></th:block>
 
-<script th:src="@{/bootstrap.min.js}"></script>
+<!-- 푸터 -->
+<footer class="bg-dark text-white py-3">
+    <div class="container text-center">
+        <p class="mt-2">SBB Web Application</p>
+        <p class="mb-0">대한민국 ● 충청남도 아산시 신창면 순천향로 22 - 순천향대학교</p>
+        <p class="mt-2">
+            <a href="#" class="text-white text-decoration-none me-3">도움말</a>
+            <a href="#" class="text-white text-decoration-none me-3">의견 보내기</a>
+            <a href="#" class="text-white text-decoration-none">개인정보처리방침</a>
+        </p>
+    </div>
+</footer>
 
+<!-- JS 파일 -->
+<script th:src="@{/jquery.min.js}"></script>
+<script th:src="@{/popper.min.js}"></script>
+<script th:src="@{/js/bootstrap.min.js}"></script>
 <!--simpleMDE JS 추가-->
 <script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
+
 <!-- simpleMDE 초기화-->
 <th:block layout:fragment="script"></th:block>
-<!-- 자바스크립트 End -->
+
 <script>
-    document.addEventListener("DOMContentLoaded", function(){
+    document.addEventListener("DOMContentLoaded", function () {
         var editorIds = ['markdownEditorQuestion', 'markdownEditorAnswer', 'markdownEditorAnswerEnabled'];
         editorIds.forEach(function(editorId){
             var textareaElement = document.getElementById(editorId);
             if(textareaElement){
-                new SimpleMDE({ element: textareaElement });
+                new SimpleMDE({element : textareaElement });
             }
         });
     });
 </script>
-
-
 </body>
 </html>

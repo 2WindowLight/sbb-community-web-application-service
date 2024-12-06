@@ -33,21 +33,19 @@ public class QuestionService {
 
     @SuppressWarnings("unused")
     private Specification<Question> search(String kw) {
-
         return new Specification<>() {
             private static final long serialVersionUID = 1L;
-
             @Override
             public Predicate toPredicate(Root<Question> q, CriteriaQuery<?> query, CriteriaBuilder cb) {
-                query.distinct(true); // 중복을 제거
+                query.distinct(true);  // 중복을 제거
                 Join<Question, SiteUser> u1 = q.join("author", JoinType.LEFT);
                 Join<Question, Answer> a = q.join("answerList", JoinType.LEFT);
                 Join<Answer, SiteUser> u2 = a.join("author", JoinType.LEFT);
                 return cb.or(cb.like(q.get("subject"), "%" + kw + "%"), // 제목
-                        cb.like(q.get("content"), "%" + kw + "%"), // 내용
-                        cb.like(u1.get("username"), "%" + kw + "%"), // 질문 작성자
-                        cb.like(a.get("content"), "%" + kw + "%"), // 답변 내용
-                        cb.like(u2.get("username"), "%" + kw + "%")); // 답변 작성자
+                        cb.like(q.get("content"), "%" + kw + "%"),      // 내용
+                        cb.like(u1.get("username"), "%" + kw + "%"),    // 질문 작성자
+                        cb.like(a.get("content"), "%" + kw + "%"),      // 답변 내용
+                        cb.like(u2.get("username"), "%" + kw + "%"));   // 답변 작성자
             }
         };
     }
@@ -91,6 +89,7 @@ public class QuestionService {
         question.getVoter().add(siteUser);
         this.questionRepository.save(question);
     }
+
     public List<Question> getCurrentListByUser(String username, int num) {
         Pageable pageable = PageRequest.of(0, num);
         return questionRepository.findCurrentQuestion(username, pageable);
