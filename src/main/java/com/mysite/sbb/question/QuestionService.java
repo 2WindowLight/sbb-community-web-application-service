@@ -1,6 +1,8 @@
 package com.mysite.sbb.question;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -50,11 +52,20 @@ public class QuestionService {
         };
     }
 
-    public Page<Question> getList(int page, String kw){
+    public Page<Question> getList(int page, String kw, String startDate, String endDate) {
         List<Sort.Order> sorts = new ArrayList<>();
         sorts.add(Sort.Order.desc("createDate"));
         Pageable pageable = PageRequest.of(page, 10, Sort.by(sorts));
         Specification<Question> spec = search(kw);
+        //메서드에서 startDate와 endDate를 LocalDateTime으로 변환 후 추가 필터링
+        if (startDate != null && !startDate.isEmpty()) {
+            LocalDateTime start = LocalDate.parse(startDate, DateTimeFormatter.ISO_DATE).atStartOfDay();
+            spec = spec.and((root, query, cb) -> cb.greaterThanOrEqualTo(root.get("createDate"), start));
+        }
+        if (endDate != null && !endDate.isEmpty()) {
+            LocalDateTime end = LocalDate.parse(endDate, DateTimeFormatter.ISO_DATE).atTime(23, 59, 59);
+            spec = spec.and((root, query, cb) -> cb.lessThanOrEqualTo(root.get("createDate"), end));
+        }
         return this.questionRepository.findAll(spec, pageable);
     }
     public Question getQuestion(Integer id) {
