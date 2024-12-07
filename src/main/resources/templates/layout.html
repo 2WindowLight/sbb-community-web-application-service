@@ -3,11 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" th:href="@{/css/DarkMode.css}">
     <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
     <link rel="stylesheet" th:href="@{/css/styles.css}">
     <link rel="stylesheet" th:href="@{/css/footer.css}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
     <title>게시판</title>
+    <button id="toggleDarkMode">다크 모드</button>
 </head>
 <body>
 <!-- 네비게이션 바 -->
@@ -26,6 +28,7 @@
         </div>
     </div>
 </nav>
+
 
 <!-- 메인 콘텐츠 -->
 <th:block layout:fragment="content"></th:block>
@@ -47,6 +50,7 @@
 <script th:src="@{/jquery.min.js}"></script>
 <script th:src="@{/popper.min.js}"></script>
 <script th:src="@{/js/bootstrap.min.js}"></script>
+<script th:src="@{/js/dark-mode.js}"></script>
 <!--simpleMDE JS 추가-->
 <script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
 
@@ -64,5 +68,6 @@
         });
     });
 </script>
+
 </body>
 </html>
