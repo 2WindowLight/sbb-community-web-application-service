@@ -3,6 +3,7 @@ package com.mysite.sbb.question;
 import com.mysite.sbb.Category;
 import com.mysite.sbb.answer.Answer;
 import com.mysite.sbb.comment.Comment;
+import com.mysite.sbb.tag.Tag;
 import com.mysite.sbb.user.SiteUser;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -58,4 +59,12 @@ public class Question {
     public void setPopular(boolean popular) {
         isPopular = popular;
     }
+    @ManyToMany
+    @JoinTable(
+            name = "question_tag",
+            joinColumns = @JoinColumn(name = "question_id"),
+            inverseJoinColumns = @JoinColumn(name = "tag_id")
+    )
+    private Set<Tag> tags; // 연결된 태그들
+
 }

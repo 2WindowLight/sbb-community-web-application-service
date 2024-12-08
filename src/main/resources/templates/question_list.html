@@ -68,6 +68,9 @@
                     <!-- 인기글 이미지 -->
                     <img th:if="${question.isPopular}" src="/images/popular_post.png" alt="인기 게시글"
                          style="width: 20px; height: 20px; margin-left: 5px;">
+                    <div>
+                        <span class="tag-badge" th:each="tag : ${question.tags}" th:text="${tag.name}"></span>
+                    </div>
                 </td>
                 <td><span th:if="${question.author != null}" th:text="${question.author.username}"></span></td>
                 <td th:text="${question.category != null ? question.category.name : '없음'}"></td>

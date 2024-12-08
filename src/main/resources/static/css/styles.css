@@ -10817,4 +10817,16 @@ footer {
   text-align: center;
   padding: 20px 0;
 }
+table.table td {
+  vertical-align: middle; /* 세로 가운데 정렬 */
+}
 
+.tag-badge {
+  display: inline-block; /* 태그 배지 스타일 */
+  padding: 4px 8px;
+  font-size: 12px;
+  color: #ffffff;
+  background-color: #6c757d;
+  border-radius: 5px;
+  margin-top: 5px; /* 태그와 다른 텍스트 간격 */
+}

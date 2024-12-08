@@ -2,6 +2,9 @@ package com.mysite.sbb.question;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import com.mysite.sbb.Category;
 import com.mysite.sbb.CategoryService;
@@ -11,9 +14,12 @@ import com.mysite.sbb.answer.AnswerService;
 import com.mysite.sbb.comment.Comment;
 import com.mysite.sbb.comment.CommentForm;
 import com.mysite.sbb.comment.CommentService;
+import com.mysite.sbb.tag.Tag;
+import com.mysite.sbb.tag.TagService;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -43,6 +49,8 @@ public class QuestionController {
     private final AnswerService answerService;
     private final CommentService commentService;
     private final CategoryService categoryService;
+    private final TagService tagService;
+
 
 
 
@@ -109,8 +117,12 @@ public class QuestionController {
         SiteUser siteUser = this.userService.getUser(principal.getName());
         Category category = this.categoryService.getCategoryById(categoryId)
                 .orElseThrow(() -> new DataNotFoundException("Category not found"));
+        Set<Tag> tags = Stream.of(questionForm.getTags().split(","))
+                .map(String::trim)
+                .map(tagService::findOrCreateTag)
+                .collect(Collectors.toSet());
 
-        this.questionService.create(questionForm.getSubject(), questionForm.getContent(), siteUser, category);
+        this.questionService.create(questionForm.getSubject(), questionForm.getContent(), siteUser, category, tags);
         return "redirect:/question/list";
     }
 
@@ -122,6 +134,7 @@ public class QuestionController {
         if (!question.getAuthor().getUsername().equals(principal.getName())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다.");
         }
+
         questionForm.setSubject(question.getSubject());
         questionForm.setContent(question.getContent());
         return "question_form";
@@ -139,7 +152,14 @@ public class QuestionController {
         if (!question.getAuthor().getUsername().equals(principal.getName())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다.");
         }
-        this.questionService.modify(question, questionForm.getSubject(), questionForm.getContent());
+        // 태그 처리
+        Set<Tag> tags = Stream.of(questionForm.getTags().split(","))
+                .map(String::trim)
+                .map(tagService::findOrCreateTag)
+                .collect(Collectors.toSet());
+
+
+        this.questionService.modify(question, questionForm.getSubject(), questionForm.getContent(), tags);
         return String.format("redirect:/question/detail/%s", id);
     }
 
@@ -162,4 +182,5 @@ public class QuestionController {
         this.questionService.vote(question, siteUser);
         return String.format("redirect:/question/detail/%s", id);
     }
+
 }

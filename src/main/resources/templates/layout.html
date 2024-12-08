@@ -9,7 +9,6 @@
     <link rel="stylesheet" th:href="@{/css/footer.css}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
     <title>게시판</title>
-    <button id="toggleDarkMode">다크 모드</button>
 </head>
 <body>
 <!-- 네비게이션 바 -->
@@ -21,6 +20,7 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
+                <button id="darkModeToggle" class="btn dark-mode-toggle">다크 모드</button>
                 <li class="nav-item"><a class="nav-link" th:href="@{/user/login}">로그인</a></li>
                 <li class="nav-item"><a class="nav-link" th:href="@{/user/signup}">회원가입</a></li>
                 <li class="nav-item"><a class="nav-link" th:href="@{/user/profile}">내 정보</a></li>

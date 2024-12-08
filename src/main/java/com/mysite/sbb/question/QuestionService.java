@@ -6,14 +6,17 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import com.mysite.sbb.Category;
+import com.mysite.sbb.tag.Tag;
 import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.mysite.sbb.DataNotFoundException;
@@ -27,6 +30,7 @@ import jakarta.persistence.criteria.JoinType;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.server.ResponseStatusException;
 
 @RequiredArgsConstructor
 @Service
@@ -76,18 +80,20 @@ public class QuestionService {
             throw new DataNotFoundException("question not found");
         }
     }
-    public void create (String subject, String content, SiteUser user,  Category category) {
+    public void create (String subject, String content, SiteUser user,  Category category, Set<Tag> tags) {
         Question q = new Question();
         q.setSubject(subject);
         q.setContent(content);
         q.setCreateDate(LocalDateTime.now());
         q.setAuthor(user);
         q.setCategory(category);
+        q.setTags(tags);
         this.questionRepository.save(q);
     }
-    public void modify(Question question, String subject, String content) {
+    public void modify(Question question, String subject, String content, Set<Tag> tags) {
         question.setSubject(subject);
         question.setContent(content);
+        question.setTags(tags); // 태그 수정
         question.setModifyDate(LocalDateTime.now());
         this.questionRepository.save(question);
     }

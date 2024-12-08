@@ -13,4 +13,6 @@ public class QuestionForm {
     private String subject;
     @NotEmpty(message = "내용은 필수항목입니다.")
     private String content;
+
+    private String tags; // 태그 입력 필드 (콤마로 구분)
 }

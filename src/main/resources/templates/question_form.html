@@ -17,6 +17,12 @@
             <label for="markdownEditorQuestion" class="form-label">내용</label>
             <textarea th:field="*{content}" id="markdownEditorQuestion" rows="10"></textarea>
         </div>
+        <div>
+            <label for="tags">태그</label>
+            <input type="text" id="tags" name="tags" class="form-control"
+                   placeholder="태그를 콤마로 구분하여 입력하세요. (예: Java, Spring, Database)"
+                   th:value="${questionForm.tags}">
+        </div>
         <div class="mb-3">
             <label for="category" class="form-label">카테고리</label>
             <select name="categoryId" id="category" class="form-select">
