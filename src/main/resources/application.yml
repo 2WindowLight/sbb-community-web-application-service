@@ -35,7 +35,16 @@ spring:
             token-uri: https://kauth.kakao.com/oauth/token
             user-info-uri: https://kapi.kakao.com/v2/user/me
             user-name-attribute: id
-
+  mail:
+    host: spring.mail.host=smtp.gmail.com
+    port: 587
+    username: lch6648850@gmail.com
+    password: 123456
+    properties:
+      smtp:
+        starttls:
+          enable: true
+        auth: true
 kakao:
   logout-redirect-uri: http://localhost:8080
   logout-url: https://kauth.kakao.com/oauth/logout
