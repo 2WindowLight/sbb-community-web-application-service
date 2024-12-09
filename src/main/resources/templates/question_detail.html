@@ -28,9 +28,12 @@
             </div>
             <!-- 카테고리 정보 -->
             <div class="badge bg-primary text-white mt-3">
-        <span th:if="${question.category != null}"
-              th:text="'카테고리: ' + ${question.category.name}"></span>
+                <span th:if="${question.category != null}" th:text="'카테고리: ' + ${question.category.name}"></span>
                 <span th:if="${question.category == null}" th:text="'카테고리: 없음'"></span>
+
+            </div>
+            <div class="my-3">
+                <span class="tag-badge" th:each="tag : ${question.tags}" th:text="${tag.name}"></span>
             </div>
             <div class="my-3" style="display: flex; justify-content: space-between; align-items: center;">
                 <div>
