@@ -9,6 +9,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -66,5 +67,6 @@ public class Question {
             inverseJoinColumns = @JoinColumn(name = "tag_id")
     )
     private Set<Tag> tags; // 연결된 태그들
+
 
 }

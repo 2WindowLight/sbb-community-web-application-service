@@ -56,7 +56,7 @@ public class QuestionService {
         };
     }
 
-    public Page<Question> getList(int page, String kw, String startDate, String endDate) {
+    public Page<Question> getList(int page, String kw, String startDate, String endDate,String filterType) {
         List<Sort.Order> sorts = new ArrayList<>();
         sorts.add(Sort.Order.desc("createDate"));
         Pageable pageable = PageRequest.of(page, 10, Sort.by(sorts));
@@ -69,6 +69,15 @@ public class QuestionService {
         if (endDate != null && !endDate.isEmpty()) {
             LocalDateTime end = LocalDate.parse(endDate, DateTimeFormatter.ISO_DATE).atTime(23, 59, 59);
             spec = spec.and((root, query, cb) -> cb.lessThanOrEqualTo(root.get("createDate"), end));
+        }
+        if ("title".equals(filterType)) {
+            return this.questionRepository.findBySubjectContaining(kw, pageable);
+        } else if ("content".equals(filterType)) {
+            return this.questionRepository.findByContentContaining(kw, pageable);
+        } else if ("category".equals(filterType)) {
+            return this.questionRepository.findByCategoryNameContaining(kw, pageable);
+        } else if ("tag".equals(filterType)) {
+            return this.questionRepository.findByTagsNameContaining(kw, pageable);
         }
         return this.questionRepository.findAll(spec, pageable);
     }

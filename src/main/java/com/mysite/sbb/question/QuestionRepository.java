@@ -23,5 +23,25 @@ public interface QuestionRepository extends JpaRepository<Question, Integer> {
     List<Question> findCurrentQuestion(@Param("username") String username,
                                        Pageable pageable);
 
+    Page<Question> findBySubjectContaining(String subject, Pageable pageable);
+
+    Page<Question> findByContentContaining(String content, Pageable pageable);
+
+    @Query("SELECT q FROM Question q JOIN q.category c WHERE c.name LIKE %:category%")
+    Page<Question> findByCategoryNameContaining(@Param("category") String category, Pageable pageable);
+
+    @Query("SELECT q FROM Question q JOIN q.tags t WHERE t.name LIKE %:tag%")
+    Page<Question> findByTagsNameContaining(@Param("tag") String tag, Pageable pageable);
+
+    @Query("SELECT q FROM Question q " +
+            "LEFT JOIN q.category c " +
+            "LEFT JOIN q.tags t " +
+            "WHERE q.subject LIKE %:kw% " +
+            "OR q.content LIKE %:kw% " +
+            "OR c.name LIKE %:kw% " +
+            "OR t.name LIKE %:kw%")
+    Page<Question> findByKeyword(@Param("kw") String kw, Pageable pageable);
+
+
 }
 

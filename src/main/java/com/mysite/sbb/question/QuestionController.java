@@ -58,14 +58,16 @@ public class QuestionController {
     public String list(Model model, @RequestParam(value = "page", defaultValue = "0") int page,
                        @RequestParam(value = "kw", defaultValue = "") String kw,
                        @RequestParam(value = "startDate", required = false) String startDate,
-                       @RequestParam(value = "endDate", required = false) String endDate) {
+                       @RequestParam(value = "endDate", required = false) String endDate,
+                       @RequestParam(value = "filterType", defaultValue = "all") String filterType) {
 
-        log.info("page:{}, kw:{}, startDate:{}, endDate:{}", page, kw, startDate, endDate);
-        Page<Question> paging = this.questionService.getList(page, kw, startDate, endDate);
+        log.info("page:{}, kw:{}, startDate:{}, endDate:{},filterType: {}", page, kw, startDate, endDate,filterType);
+        Page<Question> paging = this.questionService.getList(page, kw, startDate, endDate,filterType);
         model.addAttribute("paging", paging);
         model.addAttribute("kw", kw);
         model.addAttribute("startDate", startDate);
         model.addAttribute("endDate", endDate);
+        model.addAttribute("filterType", filterType);
 
         return "question_list";
     }
