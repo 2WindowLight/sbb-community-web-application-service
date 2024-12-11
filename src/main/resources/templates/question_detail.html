@@ -126,8 +126,11 @@
                 </div>
                 <!-- 오른쪽 버튼 -->
                 <a href="javascript:void(0);" class="comment btn btn-sm btn-outline-secondary"
-                   th:id="|ans-${answer.id}|" th:text="댓글">
-                </a>
+                   th:id="|ans-${answer.id}|" th:text="댓글"></a>
+
+                <div id="comment-ans-${answer.id}" style="display: none;">
+                    <!-- 답변 댓글 내용 -->
+                </div>
             </div>
         </div>
     </div>
@@ -200,17 +203,39 @@
         });
     });
     //댓글 버튼 클릭
-    const comment_elements = document.getElementsByClassName("comment btn");
-    Array.from(comment_elements).forEach(function(element) {
-        element.addEventListener('click', function() {
-            const comment_table = document.getElementById("comment-" + element.id)
-            if (comment_table.style.display === 'none') {
-                comment_table.style.display = 'block';
-                element.style.background = 'gray';
-                element.style.color = 'white';
-            } else {
-            } })
-    });
+        document.addEventListener("DOMContentLoaded", function () {
+            document.querySelectorAll(".comment.btn").forEach(function (button) {
+                button.addEventListener("click", function () {
+                    const buttonId = button.id; // 클릭된 버튼 ID (e.g., question-{id} or ans-{id})
+                    let commentTableId;
+
+                    // 질문 댓글 버튼의 경우
+                    if (buttonId.startsWith("question-")) {
+                        commentTableId = "comment-" + buttonId; // question-{id} -> comment-question-{id}
+                    }
+                    // 답변 댓글 버튼의 경우
+                    else if (buttonId.startsWith("ans-")) {
+                        commentTableId = "comment-" + buttonId; // ans-{id} -> comment-ans-{id}
+                    }
+
+                    const commentTable = document.getElementById(commentTableId); // 댓글 테이블 찾기
+                    if (commentTable) {
+                        // 댓글 테이블 표시/숨기기
+                        if (commentTable.style.display === "none" || commentTable.style.display === "") {
+                            commentTable.style.display = "block"; // 테이블 표시
+                            button.style.background = "gray";
+                            button.style.color = "white";
+                        } else {
+                            commentTable.style.display = "none"; // 테이블 숨기기
+                            button.style.background = "";
+                            button.style.color = "";
+                        }
+                    } else {
+                        console.error(`댓글 테이블 ID '${commentTableId}'을 찾을 수 없습니다.`);
+                    }
+                });
+            });
+        });
     </script>
 </div>
 </html>
