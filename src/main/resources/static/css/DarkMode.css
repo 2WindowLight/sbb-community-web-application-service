@@ -42,7 +42,7 @@ body {
 
 /* 다크 모드 스타일 */
 body.dark-mode {
-    background-color: #121212; /* 다크 모드 배경 */
+    background-color: #030b19; /* 다크 모드 배경 */
     color: #f0f0f0; /* 기본 텍스트 색상 */
 }
 

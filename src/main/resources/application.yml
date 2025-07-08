@@ -1,4 +1,12 @@
 spring:
+  profiles:
+    active: local   # ???(local)? ?? ?? ??? H2 ??
+
+---
+
+# 1) ?? ??? (H2)
+spring:
+  config.activate.on-profile: local
   h2:
     console:
       enabled: true
@@ -35,16 +43,75 @@ spring:
             token-uri: https://kauth.kakao.com/oauth/token
             user-info-uri: https://kapi.kakao.com/v2/user/me
             user-name-attribute: id
+
   mail:
-    host: spring.mail.host=smtp.gmail.com
+    host: smtp.gmail.com
     port: 587
     username: lch6648850@gmail.com
     password: 123456
     properties:
-      smtp:
-        starttls:
-          enable: true
-        auth: true
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
 kakao:
   logout-redirect-uri: http://localhost:8080
+  logout-url: https://kauth.kakao.com/oauth/logout
+
+---
+
+# 2) ??(AWS)? (MySQL)
+spring:
+  config.activate.on-profile: aws
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://database-1.cruk6ek2kcvy.eu-north-1.rds.amazonaws.com:3306/mydb?serverTimezone=Asia/Seoul&useSSL=false&allowPublicKeyRetrieval=true
+    username: admin
+    password: j--43!8A2djysMyn[t>MG<2b?bNL
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+        format_sql: false
+        show_sql: false
+    hibernate:
+      ddl-auto: validate
+
+  security:
+    oauth2:
+      client:
+        registration:
+          kakao:
+            client-name: Kakao
+            client-authentication-method: client_secret_post
+            client-id: e5894ef41cfc732054cfa4324c4037c8
+            client-secret: l5Jx5R87pS461hiTvz3OqoDhQa6fgZ0V
+            redirect-uri: "{baseUrl}/login/oauth2/code/kakao"
+            authorization-grant-type: authorization_code
+            scope:
+              - profile_nickname
+              - profile_image
+        provider:
+          kakao:
+            authorization-uri: https://kauth.kakao.com/oauth/authorize
+            token-uri: https://kauth.kakao.com/oauth/token
+            user-info-uri: https://kapi.kakao.com/v2/user/me
+            user-name-attribute: id
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: lch6648850@gmail.com
+    password: 123456
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+kakao:
+  logout-redirect-uri: http://<???_or_ALB_DNS>
   logout-url: https://kauth.kakao.com/oauth/logout
